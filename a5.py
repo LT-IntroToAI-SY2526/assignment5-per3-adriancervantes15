@@ -106,7 +106,20 @@ class Board:
         Returns:
             a tuple of row, column index identifying the most constrained cell
         """
-        pass
+        minLength = 9
+        minRow = 0
+        minCol = 0
+
+        for row in range(self.size):
+            for col in range(self.size):
+                cell = self.rows[row][col]
+                
+                if isinstance(cell, list):
+                    if len(cell) < minLength:
+                        minLength = len(cell)
+                        minRow = row
+                        minCol = col
+        return (minRow, minCol)
 
     def failure_test(self) -> bool:
         """Check if we've failed to correctly fill out the puzzle. If we find a cell
@@ -116,7 +129,18 @@ class Board:
         Returns:
             True if we have failed to fill out the puzzle, False otherwise
         """
-        pass
+        
+        numList = 0
+        for row in range(self.size):
+            for col in range(self.size):
+                if self.rows[row][col] == []:
+                    numList += 1
+        if numList > 0:
+            return True
+        else:
+            return False
+
+
 
     def goal_test(self) -> bool:
         """Check if we've completed the puzzle (if we've placed all the numbers).
@@ -125,7 +149,7 @@ class Board:
         Returns:
             True if we've placed all numbers, False otherwise
         """
-        pass
+        return self.num_nums_placed == self.size * self.size
 
     def update(self, row: int, column: int, assignment: int) -> None:
         """Assigns the given value to the cell given by passed in row and column
