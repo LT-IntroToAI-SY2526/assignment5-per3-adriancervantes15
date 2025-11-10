@@ -163,7 +163,18 @@ class Board:
             column - index of the column to assign
             assignment - value to place at given row, column coordinate
         """
-        pass
+        self.rows[row][column] = assignment
+        self.num_nums_placed += 1
+
+        for r in range(self.size):
+            remove_if_exists(self.rows[r][column], assignment)
+
+        for c in range(self.size):
+            remove_if_exists(self.rows[row][c], assignment)
+
+        subgrid_coords = self.subgrid_coordinates(row, column)
+        for (r,c) in subgrid_coords:
+            remove_if_exists(self.rows[r][c], assignment)
 
 
 def DFS(state: Board) -> Board:
